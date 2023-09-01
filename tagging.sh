@@ -12,6 +12,14 @@ while read -r instance_id; do
         --tags Key=project,Value=Midmarket Key=environment,Value=production
 done < instance-ids.txt
 
+# List all EBS volumes and save the IDs to a file
+aws ec2 describe-volumes --query "Volumes[*].[VolumeId]" --output text > volume-ids.txt
+
+# Loop through the IDs and apply tags
+while read -r volume_id; do
+    aws ec2 create-tags --resources "$volume_id" \
+        --tags Key=project,Value=Midmarket Key=environment,Value=production
+done < volume-ids.txt
 
 
 
