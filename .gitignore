@@ -1,0 +1,197 @@
+# General
+.DS_Store
+*.log
+*.tmp
+*.tmp.*
+*.bak
+*.swp
+*.kate-swp
+*.sublime-*
+*.suo
+*.ntvs*
+*.njsproj
+*.idea*
+*.db
+*.db-journal
+*.pid
+*.pid.lock
+*.seed
+*.tar
+*.tar.gz
+*.rar
+*.zip
+*.7z
+*.out
+*.prof
+*.egg-info
+*.rej
+*.orig
+*.old
+*.bak
+*.BAK
+*.cfg.temp
+*.sync-conflict.*
+*~ 
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+*.venv
+*.virtualenv
+*.env
+.Python
+*.pot
+*.pyc
+db.sqlite3
+
+# Python virtual environments
+.venv/
+env/
+venv/
+virtualenv/
+virtualenvs/
+.venvs/
+.pyenv/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# JetBrains
+.idea/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Xcode
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace
+*.xcuserstate
+
+# TeX
+*.aux
+*.glo
+*.idx
+*.log
+*.toc
+*.ist
+*.acn
+*.acr
+*.alg
+*.bbl
+*.blg
+*.dvi
+*.glg
+*.gls
+*.ilg
+*.ind
+*.lof
+*.lot
+*.maf
+*.mtc
+*.mtc1
+*.out
+
+# Compiled Source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.app
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Directories #
+###############
+bin/
+obj/
+tmp/
+dist/
+build/
+target/
+
+# Images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.ico
+*.psd
+*.ai
+*.eps
+*.pdf
+
+# Audio
+*.mp3
+*.wav
+*.aiff
+*.flac
+
+# Video
+*.mov
+*.mp4
+*.m4v
+*.flv
+*.f4v
+*.ogv
+*.webm
+
+# Document
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+*.pages
+*.numbers
+*.key
+*.ods
+*.odt
+*.odp
