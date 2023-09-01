@@ -19,8 +19,8 @@ def tag_resources(resource_type, resource_tag_value, describe_func, id_key_name)
 
     if resource_type == "EC2 Instance":
         resources = [instance for reservation in resources for instance in reservation['Instances']]
-    elif resource_type != "Snapshot":
-        resources = resources[id_key_name + 's']
+    else:
+        resources = resources
 
     # Extract IDs and tag
     resource_ids = [resource[id_key_name] for resource in resources]
@@ -28,8 +28,13 @@ def tag_resources(resource_type, resource_tag_value, describe_func, id_key_name)
 
     for resource_id in tqdm(resource_ids, desc=resource_type):
         try:
-            ec2_client.create_tags(Resources=[resource_id], Tags=tags + [{"Key": "ResourceName", "Value": resource_tag_value}])
-            success_count += 1
+            existing_tags = ec2_client.describe_tags(Filters=[{'Name': 'resource-id', 'Values': [resource_id]}])['Tags']
+            existing_tag_keys = [tag['Key'] for tag in existing_tags]
+
+            # Check if tags already exist on the resource
+            if not all(tag['Key'] in existing_tag_keys for tag in tags):
+                ec2_client.create_tags(Resources=[resource_id], Tags=tags + [{"Key": "ResourceName", "Value": resource_tag_value}])
+                success_count += 1
         except Exception as e:
             print(f"Error tagging {resource_type} {resource_id}: {e}")
 
