@@ -3,6 +3,7 @@
 # 2. EBS Volumes
 # 3. Load Balancers
 
+## EC2 instances
 # List all EC2 instances and save the IDs to a file
 aws ec2 describe-instances --query "Reservations[*].Instances[*].[InstanceId]" --output text > instance-ids.txt
 
@@ -12,6 +13,8 @@ while read -r instance_id; do
         --tags Key=project,Value=Midmarket Key=environment,Value=production
 done < instance-ids.txt
 
+
+## EBS Volumes
 # List all EBS volumes and save the IDs to a file
 aws ec2 describe-volumes --query "Volumes[*].[VolumeId]" --output text > volume-ids.txt
 
@@ -21,6 +24,8 @@ while read -r volume_id; do
         --tags Key=project,Value=Midmarket Key=environment,Value=production
 done < volume-ids.txt
 
+
+## Load Balancers
 # List all Load Balancers (Application and Network Load Balancers) and save the ARNs to a file
 aws elbv2 describe-load-balancers --query "LoadBalancers[*].[LoadBalancerArn]" --output text > loadbalancer-arns.txt
 
