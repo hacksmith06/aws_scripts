@@ -14,7 +14,7 @@ resources = client.get_resources(TagFilters=tag_filters)
 # Define the three tags you want to apply to all resources
 tags = [
     {
-        'Key': 'Host Location',
+        'Key': 'HostLocation',
         'Value': 'Mumbai'
     },
     {
@@ -36,16 +36,26 @@ def has_tags(resource_tags, tags_to_check):
     return all(tag in resource_tags for tag in tags_to_check)
 
 
+# Create a dictionary to store tagged resources and their tags
+tagged_resources = {}
+
 # Iterate through the resources and tag them
 for resource in resources['ResourceTagMappingList']:
     resource_arn = resource['ResourceARN']
 
     try:
-        # Check if the resource already has the specified tags
-        existing_tags = client.get_resource_tags(ResourceARN=resource_arn)
-        if not has_tags(existing_tags['Tags'], tags):
-            # Tags are not present, so apply them
-            client.tag_resources(ResourceARNList=[resource_arn], Tags=tags)
+        # Check if the resource is already in the tagged_resources dictionary
+        if resource_arn not in tagged_resources:
+            # Fetch existing tags for the resource
+            existing_tags = client.get_resource_tags(ResourceARN=resource_arn)
+
+            # Check if the specified tags are not already present
+            if not has_tags(existing_tags['Tags'], tags):
+                # Tags are not present, so apply them
+                client.tag_resources(ResourceARNList=[resource_arn], Tags=tags)
+            
+                # Add the resource to the tagged_resources dictionary
+                tagged_resources[resource_arn] = tags
     except Exception as e:
         # Handle the exception (e.g., permission issue)
         print(f"Error tagging resource {resource_arn}: {str(e)}")
