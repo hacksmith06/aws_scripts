@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to deploy an Application Load Balancer
+
+Resources:
+  MyALBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security group for ALB
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '80'
+          ToPort: '80'
+          CidrIp: 0.0.0.0/0
+
+  MyALB:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Name: MyALB
+      Subnets: 
+        - subnet-a1234567 # Replace with your subnet ID
+        - subnet-b2345678 # Replace with another subnet ID
+      SecurityGroups:
+        - Ref: MyALBSecurityGroup
+      Scheme: internet-facing
+      Type: application
+
+  MyALBTargetGroup:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      Name: MyALBTargetGroup
+      Port: 80
+      Protocol: HTTP
+      VpcId: vpc-0123456789abcdef0 # Replace with your VPC ID
+
+  MyALBListener:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      LoadBalancerArn: 
+        Ref: MyALB
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn:
+            Ref: MyALBTargetGroup
+
+Outputs:
+  ALBDNSName:
+    Description: The DNS name of the ALB
+    Value: 
+      Fn::GetAtt:
+        - MyALB
+        - DNSName
