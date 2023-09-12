@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to deploy an RDS MySQL instance
+
+Resources:
+  MyDBSubnetGroup:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: Subnet group for RDS instance
+      SubnetIds:
+        - subnet-a1234567 # Replace with your subnet ID
+        - subnet-b2345678 # Replace with another subnet ID
+
+  MyRDSInstance:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBName: MyDatabase
+      AllocatedStorage: '20'
+      DBInstanceClass: db.t2.micro
+      Engine: mysql
+      MasterUsername: admin
+      MasterUserPassword: 'YourSecurePassword' # Replace with a secure password
+      VPCSecurityGroups:
+        - Ref: MyRDSSecurityGroup
+      DBSubnetGroupName: 
+        Ref: MyDBSubnetGroup
+
+  MyRDSSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable MySQL access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '3306'
+          ToPort: '3306'
+          CidrIp: 0.0.0.0/0 # Warning: This allows MySQL access from any IP. Consider restricting it.
+
+Outputs:
+  RDSInstanceEndpoint:
+    Description: The RDS instance endpoint
+    Value: 
+      Fn::GetAtt:
+        - MyRDSInstance
+        - Endpoint.Address
