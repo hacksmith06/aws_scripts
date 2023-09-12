@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to deploy an ECS cluster and task definition
+
+Resources:
+  MyECSCluster:
+    Type: 'AWS::ECS::Cluster'
+    Properties:
+      ClusterName: MyECSCluster
+
+  MyECSTaskDefinition:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      Family: MyTaskFamily
+      Cpu: '256'
+      Memory: '512'
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - EC2
+        - FARGATE
+      ExecutionRoleArn: arn:aws:iam::123456789012:role/ecsTaskExecutionRole # Replace with your ECS task execution role ARN
+      ContainerDefinitions:
+        - Name: MyContainer
+          Image: nginx:latest
+          Memory: 512
+          PortMappings:
+            - ContainerPort: 80
+
+Outputs:
+  ECSClusterName:
+    Description: The name of the ECS cluster
+    Value: 
+      Ref: MyECSCluster
+  ECSTaskDefinitionArn:
+    Description: The ARN of the ECS task definition
+    Value: 
+      Ref: MyECSTaskDefinition
