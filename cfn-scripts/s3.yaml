@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to deploy an S3 bucket
+
+Resources:
+  MyS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: my-unique-s3-bucket-name-12345 # Replace with a unique S3 bucket name
+      AccessControl: Private
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+Outputs:
+  BucketName:
+    Description: The name of the S3 bucket
+    Value: 
+      Ref: MyS3Bucket
+  BucketArn:
+    Description: The ARN of the S3 bucket
+    Value: 
+      Fn::GetAtt:
+        - MyS3Bucket
+        - Arn
